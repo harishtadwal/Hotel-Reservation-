@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}
+Bill #{{ booking.id }} | StayEase
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header no-print">
+
+    <span>INVOICE</span>
+
+    <h1>
+        Booking Bill
+    </h1>
+
+    <p>
+        Reservation invoice for booking #{{ booking.id }}
+    </p>
+
+</section>
+
+
+<section class="bill-section">
+
+    <div class="bill-card">
+
+        <div class="bill-header">
+
+            <div>
+
+                <h1>
+                    🏨 StayEase
+                </h1>
+
+                <p>
+                    Hotel Reservation System
+                </p>
+
+            </div>
+
+
+            <div class="bill-number">
+
+                <span>
+                    INVOICE
+                </span>
+
+                <strong>
+                    #{{ booking.id }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="bill-divider"></div>
+
+
+        <div class="bill-details">
+
+            <div>
+
+                <span>
+                    GUEST
+                </span>
+
+                <strong>
+                    {{ booking.user.name }}
+                </strong>
+
+                <p>
+                    {{ booking.user.email }}
+                </p>
+
+                {% if booking.user.phone %}
+                <p>
+                    {{ booking.user.phone }}
+                </p>
+                {% endif %}
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    HOTEL
+                </span>
+
+                <strong>
+                    {{ booking.room.hotel.name }}
+                </strong>
+
+                <p>
+                    📍 {{ booking.room.hotel.location }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="bill-table-wrapper">
+
+            <table class="bill-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Description</th>
+                        <th>Details</th>
+                        <th>Amount</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                Room {{ booking.room.room_number }}
+                            </strong>
+
+                            <small>
+                                {{ booking.room.room_type }}
+                            </small>
+                        </td>
+
+                        <td>
+
+                            {{ booking.check_in_date }}
+                            →
+                            {{ booking.check_out_date }}
+
+                            <br>
+
+                            {{ booking.guests }} Guest(s)
+
+                        </td>
+
+                        <td>
+                            ₹{{ booking.total_amount }}
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="bill-total">
+
+            <span>
+                TOTAL AMOUNT
+            </span>
+
+            <strong>
+                ₹{{ booking.total_amount }}
+            </strong>
+
+        </div>
+
+
+        <div class="bill-status">
+
+            <span class="status {{ booking.status }}">
+                {{ booking.status|replace("_", " ")|title }}
+            </span>
+
+        </div>
+
+
+        <div class="bill-footer">
+
+            <p>
+                Thank you for choosing StayEase.
+            </p>
+
+            <p>
+                We hope you enjoy your stay!
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="bill-actions no-print">
+
+        <button
+            onclick="window.print()"
+            class="primary-btn">
+            🖨️ Print Bill
+        </button>
+
+        <a
+            href="{{ url_for('user.booking_details', booking_id=booking.id) }}"
+            class="outline-btn">
+            Booking Details
+        </a>
+
+        <a
+            href="{{ url_for('user.my_booking') }}"
+            class="outline-btn">
+            My Bookings
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

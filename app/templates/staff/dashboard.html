@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}
+Staff Dashboard | StayEase
+{% endblock %}
+
+
+{% block content %}
+
+<section class="staff-header">
+
+    <div>
+
+        <span>
+            STAFF PANEL
+        </span>
+
+        <h1>
+            Reservation Management
+        </h1>
+
+        <p>
+            Manage check-ins, check-outs and reservations.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="dashboard-section">
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>
+                📋
+            </span>
+
+            <h2>
+                {{ bookings|length }}
+            </h2>
+
+            <p>
+                Total Bookings
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                🔵
+            </span>
+
+            <h2>
+                {{ bookings|selectattr("status", "equalto", "confirmed")|list|length }}
+            </h2>
+
+            <p>
+                Confirmed
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                🟢
+            </span>
+
+            <h2>
+                {{ bookings|selectattr("status", "equalto", "checked_in")|list|length }}
+            </h2>
+
+            <p>
+                Checked In
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                🟣
+            </span>
+
+            <h2>
+                {{ bookings|selectattr("status", "equalto", "checked_out")|list|length }}
+            </h2>
+
+            <p>
+                Checked Out
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <h2>
+                Recent Reservations
+            </h2>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Booking</th>
+                        <th>Guest</th>
+                        <th>Room</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for booking in bookings %}
+
+                    <tr>
+
+                        <td>
+                            #{{ booking.id }}
+                        </td>
+
+                        <td>
+                            {{ booking.user.name }}
+                        </td>
+
+                        <td>
+                            {{ booking.room.room_number }}
+                        </td>
+
+                        <td>
+                            {{ booking.check_in_time }}
+                        </td>
+
+                        <td>
+                            {{ booking.check_out_time }}
+                        </td>
+
+                        <td>
+
+                            <span class="status
+                            {{ booking.status }}">
+
+                                {{ booking.status|replace("_", " ")|title }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if booking.status == "confirmed" %}
+
+                            <a
+                                href="{{ url_for(
+                                    'staff.checkin',
+                                    booking_id=booking.id
+                                ) }}"
+                                class="small-btn">
+
+                                Check In
+
+                            </a>
+
+                            {% elif booking.status == "checked_in" %}
+
+                            <a
+                                href="{{ url_for(
+                                    'staff.checkout',
+                                    booking_id=booking.id
+                                ) }}"
+                                class="small-btn">
+
+                                Check Out
+
+                            </a>
+
+                            {% else %}
+
+                            <span class="completed">
+                                Completed
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="7"
+                            class="empty-table">
+
+                            No bookings found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

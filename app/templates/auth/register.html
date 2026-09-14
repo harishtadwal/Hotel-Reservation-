@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Account | StayEase
+{% endblock %}
+
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            🏨
+        </div>
+
+        <h1>
+            Create Account
+        </h1>
+
+        <p>
+            Join StayEase and start booking.
+        </p>
+
+
+        <form method="POST">
+
+            <label>
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Your full name"
+                required>
+
+
+            <label>
+                Email
+            </label>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                required>
+
+
+            <label>
+                Phone
+            </label>
+
+            <input
+                type="text"
+                name="phone"
+                placeholder="Phone number">
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Create a password"
+                required>
+
+
+            <button type="submit"
+                    class="primary-btn full-btn">
+
+                Create Account
+
+            </button>
+
+        </form>
+
+
+        <p class="auth-footer">
+
+            Already have an account?
+
+            <a href="{{ url_for('auth.login') }}">
+                Login
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

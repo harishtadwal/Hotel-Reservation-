@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ hotel.name }} | StayEase
+{% endblock %}
+
+
+{% block content %}
+
+<section class="hotel-banner">
+
+    <div>
+
+        <span>
+            HOTEL
+        </span>
+
+        <h1>
+            {{ hotel.name }}
+        </h1>
+
+        <p>
+            📍 {{ hotel.location }}
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+
+    <div class="availability-box">
+
+        <h2>
+            Check Room Availability
+        </h2>
+
+        <p>
+            Select your dates to see available rooms.
+        </p>
+
+
+        <form method="GET">
+
+            <div class="date-fields">
+
+                <div>
+
+                    <label>
+                        Check-in
+                    </label>
+
+                    <input
+                        type="date"
+                        name="check_in"
+                        value="{{ check_in or '' }}"
+                        required>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Check-out
+                    </label>
+
+                    <input
+                        type="date"
+                        name="check_out"
+                        value="{{ check_out or '' }}"
+                        required>
+
+                </div>
+
+
+                <button type="submit"
+                        class="primary-btn">
+
+                    Check Availability
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    {% if check_in and check_out %}
+
+    <div class="availability-result">
+
+        <h2>
+            Available Rooms
+        </h2>
+
+        <p>
+            Showing rooms available for your selected dates.
+        </p>
+
+    </div>
+
+    {% else %}
+
+    <div class="availability-result">
+
+        <h2>
+            Our Rooms
+        </h2>
+
+        <p>
+            Select dates above to check availability.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+    <div class="room-grid">
+
+        {% for room in rooms %}
+
+        <div class="room-card">
+
+            <div class="room-image">
+
+                {% if room.image %}
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/rooms/' + room.image
+                    ) }}"
+                    alt="Room {{ room.room_number }}">
+
+                {% else %}
+
+                <div class="image-placeholder">
+                    🛏️
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="room-content">
+
+                <div class="room-top">
+
+                    <h3>
+                        Room {{ room.room_number }}
+                    </h3>
+
+                    <span class="status available">
+                        Available
+                    </span>
+
+                </div>
+
+
+                <p class="room-type">
+                    {{ room.room_type }}
+                </p>
+
+
+                <div class="room-details">
+
+                    <span>
+                        👥 {{ room.capacity }} Guests
+                    </span>
+
+                    <span>
+                        💰 ₹{{ room.price }}/night
+                    </span>
+
+                </div>
+
+
+                <p>
+                    {{ room.description }}
+                </p>
+
+
+                {% if check_in and check_out %}
+
+                <a
+                    href="{{ url_for(
+                        'user.book_room',
+                        room_id=room.id,
+                        check_in=check_in,
+                        check_out=check_out
+                    ) }}"
+                    class="card-btn">
+
+                    Book This Room →
+
+                </a>
+
+                {% else %}
+
+                <button
+                    class="disabled-btn"
+                    disabled>
+
+                    Select Dates First
+
+                </button>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <h2>
+                No rooms available
+            </h2>
+
+            <p>
+                Try different dates.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}
+Booking Details | StayEase
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <span>RESERVATION</span>
+
+    <h1>
+        Booking #{{ booking.id }}
+    </h1>
+
+    <p>
+        Your reservation details
+    </p>
+
+</section>
+
+
+<section class="booking-details-section">
+
+    <div class="details-card">
+
+        <div class="details-header">
+
+            <div>
+                <span class="details-label">
+                    BOOKING ID
+                </span>
+
+                <h2>
+                    #{{ booking.id }}
+                </h2>
+            </div>
+
+            <span class="status {{ booking.status }}">
+                {{ booking.status|replace("_", " ")|title }}
+            </span>
+
+        </div>
+
+
+        <div class="details-room">
+
+            <div class="details-room-image">
+
+                {% if booking.room.image %}
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/rooms/' + booking.room.image
+                    ) }}"
+                    alt="Room {{ booking.room.room_number }}">
+
+                {% else %}
+
+                <div class="image-placeholder">
+                    🛏️
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="details-room-info">
+
+                <span class="details-label">
+                    ROOM
+                </span>
+
+                <h2>
+                    Room {{ booking.room.room_number }}
+                </h2>
+
+                <p>
+                    {{ booking.room.room_type }}
+                </p>
+
+                <p>
+                    👥 {{ booking.guests }} Guest(s)
+                </p>
+
+                <p>
+                    💰 ₹{{ booking.room.price }} / night
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="details-grid">
+
+            <div class="detail-item">
+
+                <span>
+                    CHECK-IN
+                </span>
+
+                <strong>
+                    {{ booking.check_in_time }}
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    CHECK-OUT
+                </span>
+
+                <strong>
+                    {{ booking.check_out_time }}
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    GUESTS
+                </span>
+
+                <strong>
+                    {{ booking.guests }}
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    TOTAL AMOUNT
+                </span>
+
+                <strong>
+                    ₹{{ booking.total_amount }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="details-actions">
+
+            <a
+                href="{{ url_for(
+                    'user.bill',
+                    booking_id=booking.id
+                ) }}"
+                class="primary-btn">
+                View Bill
+            </a>
+
+            <a
+                href="{{ url_for('user.my_booking') }}"
+                class="outline-btn">
+                Back to My Bookings
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

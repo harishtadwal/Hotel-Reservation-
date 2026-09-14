@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Room {{ room.room_number }}</h1>
+
+<div class="card">
+
+    <p>
+        <strong>Type:</strong>
+        {{ room.room_type }}
+    </p>
+
+    <p>
+        <strong>Price:</strong>
+        ₹{{ room.price }} / night
+    </p>
+
+    <p>
+        <strong>Capacity:</strong>
+        {{ room.capacity }}
+    </p>
+
+    <p>
+        <strong>Status:</strong>
+        {{ room.status }}
+    </p>
+
+    <p>
+        {{ room.description }}
+    </p>
+
+    <a class="btn"
+       href="{{ url_for('user.book_room', room_id=room.id) }}">
+        Book This Room
+    </a>
+
+</div>
+
+{% endblock %}

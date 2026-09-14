@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard | StayEase
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-hero">
+
+    <div>
+        <span class="dashboard-tag">MY ACCOUNT</span>
+
+        <h1>
+            Welcome, {{ current_user.name }} 👋
+        </h1>
+
+        <p>
+            Manage your hotel reservations and bookings from one place.
+        </p>
+    </div>
+
+    <a href="{{ url_for('user.hotels') }}"
+       class="primary-btn">
+        Explore Hotels
+    </a>
+
+</section>
+
+
+<section class="dashboard-section">
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                🏨
+            </div>
+
+            <h2>Find Hotels</h2>
+
+            <p>
+                Explore hotels, locations and available rooms.
+            </p>
+
+            <a href="{{ url_for('user.hotels') }}"
+               class="card-btn">
+                Explore Hotels →
+            </a>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                📋
+            </div>
+
+            <h2>My Bookings</h2>
+
+            <p>
+                View your reservations and booking details.
+            </p>
+
+            <a href="{{ url_for('user.my_booking') }}"
+               class="card-btn">
+                View Bookings →
+            </a>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                🧾
+            </div>
+
+            <h2>My Bills</h2>
+
+            <p>
+                View and print bills for your completed bookings.
+            </p>
+
+            <a href="{{ url_for('user.my_booking') }}"
+               class="card-btn">
+                View Bills →
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="profile-card">
+
+        <div>
+            <span class="profile-label">
+                ACCOUNT INFORMATION
+            </span>
+
+            <h2>{{ current_user.name }}</h2>
+
+            <p>
+                📧 {{ current_user.email }}
+            </p>
+
+            {% if current_user.phone %}
+            <p>
+                📱 {{ current_user.phone }}
+            </p>
+            {% endif %}
+        </div>
+
+        <a href="{{ url_for('user.hotels') }}"
+           class="outline-btn">
+            Make a New Booking
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

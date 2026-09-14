@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Available Rooms</h1>
+
+{% for room in rooms %}
+
+<div class="card">
+
+    <h2>Room {{ room.room_number }}</h2>
+
+    <p>Type: {{ room.room_type }}</p>
+
+    <p>Price: ₹{{ room.price }} / night</p>
+
+    <p>Capacity: {{ room.capacity }}</p>
+
+    <p>Status: {{ room.status }}</p>
+
+    <p>{{ room.description }}</p>
+
+    <a class="btn"
+       href="{{ url_for('user.book_room', room_id=room.id) }}">
+        Book Room
+    </a>
+
+</div>
+
+{% else %}
+
+<p>No rooms available.</p>
+
+{% endfor %}
+
+{% endblock %}

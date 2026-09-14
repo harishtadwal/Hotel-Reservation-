@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}
+Hotels | StayEase
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page-header">
+
+    <h1>Find Your Perfect Hotel</h1>
+
+    <p>
+        Explore our hotels and discover your next stay.
+    </p>
+
+</section>
+
+
+<section class="section">
+
+    <form
+        method="GET"
+        action="{{ url_for('user.hotels') }}"
+        class="search-box">
+
+        <input
+            type="text"
+            name="search"
+            value="{{ search }}"
+            placeholder="Search hotel or location...">
+
+        <button type="submit">
+            🔍 Search
+        </button>
+
+    </form>
+
+
+    <div class="hotel-grid">
+
+        {% for hotel in hotels %}
+
+        <div class="hotel-card">
+
+            <div class="hotel-image">
+
+                {% if hotel.image %}
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/hotels/' + hotel.image
+                    ) }}"
+                    alt="{{ hotel.name }}">
+
+                {% else %}
+
+                <div class="image-placeholder">
+                    🏨
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="hotel-content">
+
+                <div class="hotel-rating">
+                    ⭐ {{ hotel.rating }}
+                </div>
+
+                <h3>
+                    {{ hotel.name }}
+                </h3>
+
+                <p class="hotel-location">
+                    📍 {{ hotel.location }}
+                </p>
+
+                <p>
+                    {{ hotel.description }}
+                </p>
+
+                <a
+                    href="{{ url_for(
+                        'user.hotel_rooms',
+                        hotel_id=hotel.id
+                    ) }}"
+                    class="card-btn">
+
+                    View Rooms →
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <h2>No hotels found</h2>
+
+            <p>
+                Try another hotel name or location.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

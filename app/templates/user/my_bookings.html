@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Bookings | StayEase
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+
+    <span>MY ACCOUNT</span>
+
+    <h1>
+        My Bookings
+    </h1>
+
+    <p>
+        View and manage all your hotel reservations.
+    </p>
+
+</section>
+
+
+<section class="section">
+
+    {% if bookings %}
+
+    <div class="bookings-list">
+
+        {% for booking in bookings %}
+
+        <div class="booking-list-card">
+
+            <div class="booking-list-image">
+
+                {% if booking.room.image %}
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='images/rooms/' + booking.room.image
+                    ) }}"
+                    alt="Room {{ booking.room.room_number }}">
+
+                {% else %}
+
+                <div class="image-placeholder">
+                    🛏️
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="booking-list-content">
+
+                <div class="booking-list-top">
+
+                    <div>
+
+                        <span class="booking-id">
+                            BOOKING #{{ booking.id }}
+                        </span>
+
+                        <h2>
+                            Room {{ booking.room.room_number }}
+                        </h2>
+
+                    </div>
+
+
+                    <span class="status {{ booking.status }}">
+                        {{ booking.status|replace("_", " ")|title }}
+                    </span>
+
+                </div>
+
+
+                <div class="booking-info-grid">
+
+                    <div>
+                        <span>Hotel</span>
+                        <strong>
+                            {{ booking.room.hotel.name }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Room Type</span>
+                        <strong>
+                            {{ booking.room.room_type }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Check-in</span>
+                        <strong>
+                            {{ booking.check_in_time }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Check-out</span>
+                        <strong>
+                            {{ booking.check_out_time }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Guests</span>
+                        <strong>
+                            {{ booking.guests }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Total</span>
+                        <strong class="amount">
+                            ₹{{ booking.total_amount }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="booking-actions">
+
+                    <a
+                        href="{{ url_for(
+                            'user.booking_details',
+                            booking_id=booking.id
+                        ) }}"
+                        class="outline-btn">
+                        View Details
+                    </a>
+
+                    <a
+                        href="{{ url_for(
+                            'user.bill',
+                            booking_id=booking.id
+                        ) }}"
+                        class="card-btn">
+                        View Bill
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            🏨
+        </div>
+
+        <h2>
+            No bookings yet
+        </h2>
+
+        <p>
+            You haven't made any reservations yet.
+        </p>
+
+        <a
+            href="{{ url_for('user.hotels') }}"
+            class="primary-btn">
+            Explore Hotels
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

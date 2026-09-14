@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}
+Book Room | StayEase
+{% endblock %}
+
+
+{% block content %}
+
+<section class="page-header">
+
+    <h1>Complete Your Booking</h1>
+
+    <p>
+        Reserve your room in a few simple steps.
+    </p>
+
+</section>
+
+
+<section class="booking-section">
+
+    <div class="booking-card">
+
+
+        <div class="booking-room">
+
+            {% if room.image %}
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='images/rooms/' + room.image
+                ) }}"
+                alt="Room {{ room.room_number }}">
+
+            {% endif %}
+
+            <div>
+
+                <h2>
+                    Room {{ room.room_number }}
+                </h2>
+
+                <p>
+                    {{ room.room_type }}
+                </p>
+
+                <p>
+                    👥 {{ room.capacity }} Guests
+                </p>
+
+                <h3>
+                    ₹{{ room.price }}
+                    <small>/ night</small>
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <form method="POST">
+
+            <h2>
+                Reservation Details
+            </h2>
+
+
+            <label>
+                Check-in
+            </label>
+
+            <input
+                type="date"
+                name="check_in"
+                value="{{ check_in or '' }}"
+                required>
+
+
+            <label>
+                Check-out
+            </label>
+
+            <input
+                type="date"
+                name="check_out"
+                value="{{ check_out or '' }}"
+                required>
+
+
+            <label>
+                Number of Guests
+            </label>
+
+            <input
+                type="number"
+                name="guests"
+                min="1"
+                max="{{ room.capacity }}"
+                required>
+
+
+            <button type="submit"
+                    class="primary-btn full-btn">
+
+                Confirm Booking
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}
