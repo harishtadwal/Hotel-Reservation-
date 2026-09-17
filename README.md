@@ -42,6 +42,7 @@ The project also includes a separate staff panel where staff can manage guest ch
 
 ## Project Structure
 
+```text
 hotel_reservation_system/
 │
 ├── app/
@@ -75,7 +76,7 @@ hotel_reservation_system/
 ├── requirements.txt
 ├── run.py
 └── .gitignore
-
+```
 
 ## How It Works
 
@@ -144,14 +145,17 @@ The project uses MySQL as the database.
 
 Main tables:
 
+```text
 users
 hotels
 rooms
 bookings
 payments
+```
 
 The main relationships are:
 
+```text
 User
   ↓
 Bookings
@@ -159,7 +163,7 @@ Bookings
 Room
   ↓
 Hotel
-
+```
 
 A hotel can have multiple rooms, and a user can have multiple bookings.
 
@@ -167,27 +171,33 @@ A hotel can have multiple rooms, and a user can have multiple bookings.
 
 ### 1. Clone the repository
 
+```bash
 git clone https://github.com/your-username/hotel-reservation-system.git
+```
 
 Go inside the project:
 
+```bash
 cd hotel_reservation_system
-
+```
 
 ### 2. Create a virtual environment
 
+```bash
 python -m venv venv
-
+```
 
 Activate it on Windows:
 
+```bash
 venv\Scripts\activate
+```
 
 ### 3. Install dependencies
 
-
+```bash
 pip install -r requirements.txt
-
+```
 
 ### 4. Configure MySQL
 
@@ -195,29 +205,32 @@ Create a MySQL database and update the database configuration in your environmen
 
 Example:
 
+```text
 MYSQL_HOST=localhost
 MYSQL_USER=root
 MYSQL_PASSWORD=your_password
 MYSQL_DATABASE=hotel_reservation
+```
 
-Do not upload your actual password or .env file to GitHub.
+Do not upload your actual password or `.env` file to GitHub.
 
 ### 5. Run database migrations
 
-
+```bash
 flask --app run.py db upgrade
-
+```
 
 ### 6. Run the application
 
+```bash
 python run.py
-
+```
 
 Open the application in your browser:
 
-
+```text
 http://127.0.0.1:5000
-
+```
 
 ## Room Availability
 
@@ -233,13 +246,14 @@ Screenshots can be added here later.
 
 Example:
 
+```text
 Home Page
 Hotels Page
 Room Availability
 Booking Page
 My Bookings
 Staff Dashboard
-
+```
 
 ## Future Improvements
 
@@ -278,8 +292,9 @@ While building this project, I worked with:
 
 B.Tech CSE Student
 
-GitHub: `harishtadwal`
+GitHub: `harshtadwal`
 
+---
 
 ## Project Status
 
