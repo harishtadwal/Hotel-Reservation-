@@ -292,7 +292,7 @@ While building this project, I worked with:
 
 B.Tech CSE Student
 
-GitHub: `harshtadwal`
+GitHub: `harishtadwal`
 
 ---
 
