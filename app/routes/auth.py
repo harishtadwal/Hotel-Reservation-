@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user
 
 
 from app import db
-from app.models import User
+from app.models import User, Staff
 
 auth = Blueprint("auth", __name__)
 
@@ -81,3 +81,71 @@ def logout():
 
     return redirect(url_for("auth.login"))
 
+@auth.route("/staff/register", methods=["GET", "POST"])
+def staff_register():
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        email = request.form["email"]
+        phone = request.form["phone"]
+        password = request.form["password"]
+        staff_id = request.form["staff_id"].strip().upper()
+
+        # Check if email already exists
+        existing_user = User.query.filter_by(
+            email=email
+        ).first()
+
+        if existing_user:
+            flash("Email already registered!")
+            return redirect(
+                url_for("auth.staff_register")
+            )
+
+        # Verify Staff ID
+        staff = Staff.query.filter_by(
+            staff_id=staff_id
+        ).first()
+
+        if not staff:
+            flash("Invalid Staff ID!")
+            return redirect(
+                url_for("auth.staff_register")
+            )
+
+        # Check whether Staff ID is already used
+        if staff.is_used:
+            flash("This Staff ID has already been used.")
+            return redirect(
+                url_for("auth.staff_register")
+            )
+
+        hashed_password = generate_password_hash(password)
+
+        user = User(
+            name=name,
+            email=email,
+            phone=phone,
+            password=hashed_password,
+            role="staff",
+            hotel_id=staff.hotel_id,
+            staff_id=staff.staff_id
+        )
+
+        db.session.add(user)
+
+        # Mark Staff ID as used
+        staff.is_used = True
+
+        db.session.commit()
+
+        flash("Staff registration successful! Please login.")
+
+        return redirect(
+            url_for("auth.login")
+        )
+
+    return render_template(
+        "auth/staff_register.html"
+    )

@@ -136,7 +136,7 @@ def hotels():
     if search:
         hotels = Hotel.query.filter(
             Hotel.name.ilike(f"%{search}%") |
-            Hotel.location.ilike(f"%{search}    %")
+            Hotel.location.ilike(f"%{search}%")
         ).all()
     else:
         hotels =Hotel.query.all()

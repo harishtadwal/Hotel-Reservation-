@@ -11,22 +11,20 @@ Staff Dashboard | StayEase
 
     <div>
 
-        <span>
-            STAFF PANEL
-        </span>
+        <span>STAFF PANEL</span>
 
         <h1>
-            Reservation Management
+            {{ current_user.hotel.name }}
         </h1>
 
         <p>
-            Manage check-ins, check-outs and reservations.
+            Welcome, {{ current_user.name }}.
+            Manage reservations for your hotel.
         </p>
 
     </div>
 
 </section>
-
 
 <section class="dashboard-section">
 

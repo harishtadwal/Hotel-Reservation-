@@ -12,7 +12,14 @@ def dashboard():
     if current_user.role != "staff":
         return "Unauthorized", 403
 
-    bookings = Booking.query.all()
+    if current_user.hotel_id is None:
+        return "Staff member is not assigned to a hotel.", 403
+
+
+    # bookings = Booking.query.all()
+    bookings = Booking.query.join(Room).filter(
+    Room.hotel_id == current_user.hotel_id
+    ).all()
 
     return render_template(
         "staff/dashboard.html",
@@ -22,10 +29,17 @@ def dashboard():
 @staff.route("/checkin/<int:booking_id>")
 @login_required
 def checkin(booking_id):
+
     if current_user.role != "staff":
         return "Unauthorized", 403
 
-    booking = Booking.query.get_or_404(booking_id)
+    if current_user.hotel_id is None:
+        return "Staff member is not assigned to a hotel.", 403
+
+    booking = Booking.query.join(Room).filter(
+        Booking.id == booking_id,
+        Room.hotel_id == current_user.hotel_id
+    ).first_or_404()
 
     booking.status = "checked_in"
     booking.room.status = "occupied"
@@ -36,13 +50,21 @@ def checkin(booking_id):
 
     return redirect(url_for("staff.dashboard"))
 
+
 @staff.route("/checkout/<int:booking_id>")
 @login_required
 def checkout(booking_id):
+
     if current_user.role != "staff":
         return "Unauthorized", 403
 
-    booking = Booking.query.get_or_404(booking_id)
+    if current_user.hotel_id is None:
+        return "Staff member is not assigned to a hotel.", 403
+
+    booking = Booking.query.join(Room).filter(
+        Booking.id == booking_id,
+        Room.hotel_id == current_user.hotel_id
+    ).first_or_404()
 
     booking.status = "checked_out"
     booking.room.status = "available"

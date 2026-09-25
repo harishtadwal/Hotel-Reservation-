@@ -16,8 +16,23 @@ class User(UserMixin, db.Model):
     
     role = db.Column(db.String(20), default="user") 
 
+    #Hotel assigned to staff member
+    hotel_id = db.Column(db.Integer, db.ForeignKey("hotels.id"), nullable=True)
+
+    staff_id = db.Column(
+        db.String(50),
+        unique=True,
+        nullable=True
+    )
+
     bookings = db.relationship(
         "Booking",
         backref="user",
+        lazy=True
+    )
+
+    hotel = db.relationship(
+        "Hotel",
+        backref="staff_members",
         lazy=True
     )
