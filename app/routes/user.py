@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from datetime import datetime
+from datetime import datetime, date
 
 from app import db
 from app.models import Room, Booking, Payment, Hotel
@@ -43,6 +43,21 @@ def book_room(room_id):
         check_out = datetime.strptime(
             request.form["check_out"], "%Y-%m-%d"
         ).date()
+
+        # Prevent past bookings
+        if check_in < date.today():
+            flash("Check-in date cannot be in the past.")
+            return redirect(
+                url_for("user.book_room", room_id=room.id)
+            )
+
+        # Check-out must be after check-in
+        if check_out <= check_in:
+            flash("Check-out date must be after check-in date.")
+            return redirect(
+                url_for("user.book_room", room_id=room.id)
+            )
+
 
         guests = int(request.form["guests"])
 
@@ -88,7 +103,7 @@ def book_room(room_id):
     check_in = request.args.get("check_in")
     check_out = request.args.get("check_out")
 
-    return render_template("user/booking.html", room=room, check_in=check_in,check_out=check_out)
+    return render_template("user/booking.html", room=room, check_in=check_in,check_out=check_out, today=date.today().isoformat())
 
 @user.route("/my-bookings")
 @login_required

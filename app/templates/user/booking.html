@@ -75,6 +75,7 @@ Book Room | StayEase
                 type="date"
                 name="check_in"
                 value="{{ check_in or '' }}"
+                min="{{ today }}"
                 required>
 
 
@@ -86,6 +87,7 @@ Book Room | StayEase
                 type="date"
                 name="check_out"
                 value="{{ check_out or '' }}"
+                min="{{ today }}"
                 required>
 
 
